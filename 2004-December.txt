@@ -1,0 +1,124 @@
+From mogwa at mogwa.net  Sun Dec  5 18:14:23 2004
+From: mogwa at mogwa.net (Luke Morfitt)
+Date: Sun, 5 Dec 2004 17:14:23 -0000 (GMT)
+Subject: [Projectdev-devel] udev-046-2
+Message-ID: <34860.83.100.157.117.1102266863.squirrel@83.100.157.117>
+
+Hello every one.
+
+Myself and MrGreen have resently come across a problem with the udev-046-2
+pkg.
+
+If you install this PKG your system will not mount your partitions. we
+have yet to identify the exect issues with this PKG. Please do not install
+this PKG.
+
+If you have isntalled this PKG and your system is not working you will
+need to do the following.
+boot off the project dEv cd
+mount the cd via
+mount /dev/cdroms/cdrom /src
+mount your root partition
+mount /dev/discs/disc0/part1 /mnt
+copy the older version of udev accross.
+cp /src/projectdev/pkg/udev-036-1.pkg.tar.gz /mnt
+change root
+chroot /mnt
+downgrade the pkg
+pacman --upgrade udev-036-1.pkg.tar.gz
+exit the chroot
+umount /mnt
+reboot
+
+all been well you should be back up and running in about 10 mins.
+Thanks
+Mogwa_
+
+
+
+
+
+--
+This message has been scanned for viruses and dangerous content by the Viper Internet email scanner, and is believed to be clean.
+
+Email service provided by Viper Internet
+http://www.viper.uk.net
+
+
+
+From rensel at email.it  Sat Dec 11 13:26:57 2004
+From: rensel at email.it (rensel)
+Date: Sat, 11 Dec 2004 13:26:57 +0100
+Subject: [Projectdev-devel] Test CVS is now "current"
+Message-ID: <41BAE791.5050608@email.it>
+
+Yesterday dpb and I decided to finally switch to my "test" CVS tree.
+It contains four directories atm: base, desktop, cvs and extra.
+BASE contains all the stuff which will go in the base ISOs, so that now 
+it will be easier to build them.
+DESKTOP contains all the libraries and applications needed to get a 
+complete working desktop environment, including X, except for CVS apps.
+CVS will be a special repository: we will set "current" as pkgver for 
+all CVS apps and put the build date in description; CVS binaries will be 
+built only for new releases, and if a user wants to rebuild all CVS apps 
+and libs with latest stuff, he'll use devcheck+makepkg or srcpac.
+EXTRA, well... extra contains all the stuff which is not part of base, 
+desktop or cvs ;)
+Just checkout "current" module to get all this.
+dpb has already modified his "mkdb" script for the new ftp and cvs 
+layout. Another little change we made is to put binary package 
+repositories into the "packages" directory.
+We are going to rebuild pacman as soon as possible.
+
+
+ 
+ 
+ --
+ Email.it, the professional e-mail, gratis per te: http://www.email.it/f
+ 
+ Sponsor:
+ Audio, Video, HI-FI...oltre 2.000 prodotti di alta qualit? a prezzi da sogno solo su Visualdream.it 
+ Clicca qui: http://adv.email.it/cgi-bin/foclick.cgi?mid=2955&d=11-12
+
+
+From blokkie at burningfrog.be  Wed Dec 15 10:30:08 2004
+From: blokkie at burningfrog.be (Thibaut Fernagut)
+Date: Wed, 15 Dec 2004 09:30:08 +0000
+Subject: [Projectdev-devel] Test CVS is now "current"
+In-Reply-To: <41BAE791.5050608@email.it>
+References: <41BAE791.5050608@email.it>
+Message-ID: <41C00420.3020405@burningfrog.be>
+
+rensel wrote:
+
+> Yesterday dpb and I decided to finally switch to my "test" CVS tree.
+> It contains four directories atm: base, desktop, cvs and extra.
+> BASE contains all the stuff which will go in the base ISOs, so that
+> now it will be easier to build them.
+> DESKTOP contains all the libraries and applications needed to get a
+> complete working desktop environment, including X, except for CVS apps.
+> CVS will be a special repository: we will set "current" as pkgver for
+> all CVS apps and put the build date in description; CVS binaries will
+> be built only for new releases, and if a user wants to rebuild all CVS
+> apps and libs with latest stuff, he'll use devcheck+makepkg or srcpac.
+> EXTRA, well... extra contains all the stuff which is not part of base,
+> desktop or cvs ;)
+> Just checkout "current" module to get all this.
+> dpb has already modified his "mkdb" script for the new ftp and cvs
+> layout. Another little change we made is to put binary package
+> repositories into the "packages" directory.
+> We are going to rebuild pacman as soon as possible.
+>
+>
+>
+
+
+Cool !!
+
+does this mean I have to use the new repo to update packages now ?
+I plan to do this today.
+Exelent work !
+
+Blokkie
+
+

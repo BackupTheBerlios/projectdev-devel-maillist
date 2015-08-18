@@ -1,0 +1,351 @@
+From t.fernagut at burningfrog.be  Tue Nov  2 17:02:57 2004
+From: t.fernagut at burningfrog.be (Fernagut Thibaut)
+Date: Tue, 02 Nov 2004 17:02:57 +0100
+Subject: [Projectdev-devel] test
+Message-ID: <1099411377.4465.19.camel@localhost.localdomain>
+
+test
+-- 
+
+Fernagut Thibaut, Linux specialist
+
+Burning Frog  - I.T. Services To Set Your World On Fire
+Doornstraat 32, B-8970, Poperinge, Belgium
+Fax: +32 (0)57 332967 GSM: +32 (0)473 774334
+Email : t.fernagut at burningfrog.be   Web: www.burningfrog.be
+
+
+
+From t.fernagut at burningfrog.be  Thu Nov  4 13:08:26 2004
+From: t.fernagut at burningfrog.be (Fernagut Thibaut)
+Date: Thu, 04 Nov 2004 13:08:26 +0100
+Subject: [Projectdev-devel] some basic stuff
+Message-ID: <1099570106.4227.7.camel@localhost.localdomain>
+
+We need libtar and wget in base ... it's a dep for makepkg. 
+
+Even if our abs works .. it still needs those two . I could not find any
+of them in our tree, so I dpb has not uploaded them. 
+
+Also .. how do we get anonymous cvs working with abs on berlios ? 
+
+
+Cheers 
+-blokkie
+-- 
+
+Fernagut Thibaut, Linux specialist
+
+Burning Frog  - I.T. Services To Set Your World On Fire
+Doornstraat 32, B-8970, Poperinge, Belgium
+Fax: +32 (0)57 332967 GSM: +32 (0)473 774334
+Email : t.fernagut at burningfrog.be   Web: www.burningfrog.be
+
+
+
+From t.fernagut at burningfrog.be  Thu Nov  4 16:22:12 2004
+From: t.fernagut at burningfrog.be (Fernagut Thibaut)
+Date: Thu, 04 Nov 2004 16:22:12 +0100
+Subject: [Projectdev-devel] small updates :)
+Message-ID: <1099581732.4229.20.camel@localhost.localdomain>
+
+added :
+
+netkit-ftp 
+wget
+libtar
+
+
+working on kernel26 atm 
+
+added our own cvs checkout script called  devcheck  . It's allready
+included in our pacman version. 
+
+Pending : 
+
+A packages.txt  file in the /setup dir  for netinstall. dpb and me or
+working on that using a script from neri (from archlinux) so it should
+be ready very soon. 
+
+Next , xorg and a  shitload of binary's :-)
+
+
+Cheerio's
+-blokkie
+
+
+-- 
+
+Fernagut Thibaut, Linux specialist
+
+Burning Frog  - I.T. Services To Set Your World On Fire
+Doornstraat 32, B-8970, Poperinge, Belgium
+Fax: +32 (0)57 332967 GSM: +32 (0)473 774334
+Email : t.fernagut at burningfrog.be   Web: www.burningfrog.be
+
+
+
+From t.fernagut at burningfrog.be  Thu Nov  4 20:18:32 2004
+From: t.fernagut at burningfrog.be (Thibaut Fernagut)
+Date: Thu, 04 Nov 2004 19:18:32 +0000
+Subject: [Projectdev-devel] things are moving on
+Message-ID: <1099595912.3206.1.camel@boss>
+
+Atm  we have everything needed to make a install cd. 
+We have cvs, an addapted pacman, wget and all other deps , even openssh
+for cvs'ing with berlios.
+
+I think the next step is best to create our own install cd. So any help
+would be very much appreciated .
+
+Cheerio's 
+
+-- 
+Thibaut Fernagut, Director
+
+Burning Frog  - I.T. Services To Set Your World On Fire
+Doornstraat 32, B-8970, Poperinge, Belgium
+Tel: +32 (0)57 332967 Fax: +32 (0)57 332967 GSM: +32 (0)473 774334
+Email : t.fernagut at burningfrog.be   Web: www.burningfrog.be
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 189 bytes
+Desc: This is a digitally signed message part
+URL: <https://lists.berlios.de/pipermail/projectdev-devel/attachments/20041104/7d4065f6/attachment.pgp>
+
+From t.fernagut at burningfrog.be  Wed Nov 10 17:42:14 2004
+From: t.fernagut at burningfrog.be (Thibaut Fernagut)
+Date: Wed, 10 Nov 2004 16:42:14 +0000
+Subject: [Projectdev-devel] projectdEv installation screenshots
+Message-ID: <1100104934.2948.0.camel@boss>
+
+FYI , this is what dieter has produced for the first installation ISO
+attampt :-)
+
+http://dakin.be/~dieterke/projectdEv/
+
+
+
+cheers 
+
+-- 
+Thibaut Fernagut, Director
+
+Burning Frog  - I.T. Services To Set Your World On Fire
+Doornstraat 32, B-8970, Poperinge, Belgium
+Tel: +32 (0)57 332967 Fax: +32 (0)57 332967 GSM: +32 (0)473 774334
+Email : t.fernagut at burningfrog.be   Web: www.burningfrog.be
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 189 bytes
+Desc: This is a digitally signed message part
+URL: <https://lists.berlios.de/pipermail/projectdev-devel/attachments/20041110/091a32f6/attachment.pgp>
+
+From t.fernagut at burningfrog.be  Thu Nov 11 02:28:06 2004
+From: t.fernagut at burningfrog.be (Thibaut Fernagut)
+Date: Thu, 11 Nov 2004 01:28:06 +0000
+Subject: [Projectdev-devel] update
+Message-ID: <1100136486.4280.5.camel@boss>
+
+ as you all know the following is in place = 
+
+
+install iso is downloadable and working like a charm ( mind those with
+SATA a acpi dodgy boxes) thx dpb for good work on the install and build
+iso .. kernel source needs to be added ASAP
+
+pacman -Syu && pacman  -s e17 works .. sweet deps .. eye candy if you
+have dfbdev in grub enabled or if you have a good xorg config. I'll
+remake e16 pkg later  .. 
+
+where is alsa ?   ow boy ow boy .. alsa and sound need to be available ,
+later builds will enable it, mind that dbus and hal will ease our pain.
+
+
+I've informed xentac aout projectdev .. so he knows about the fork
+
+
+I've filled in the regform on distrowatch .. maybe we get enlisted
+
+
+freedomzen has joined the test base :-)
+
+
+Cherio's 
+
+
+
+
+-- 
+Thibaut Fernagut, Director
+
+Burning Frog  - I.T. Services To Set Your World On Fire
+Doornstraat 32, B-8970, Poperinge, Belgium
+Tel: +32 (0)57 332967 Fax: +32 (0)57 332967 GSM: +32 (0)473 774334
+Email : t.fernagut at burningfrog.be   Web: www.burningfrog.be
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 189 bytes
+Desc: This is a digitally signed message part
+URL: <https://lists.berlios.de/pipermail/projectdev-devel/attachments/20041111/ec13977c/attachment.pgp>
+
+From rensel at email.it  Sat Nov 13 15:21:41 2004
+From: rensel at email.it (rensel)
+Date: Sat, 13 Nov 2004 15:21:41 +0100
+Subject: [Projectdev-devel] Project dEv logo
+Message-ID: <41961875.1090305@email.it>
+
+Hi,
+
+Project dEv finally seems to have an official logo. I made it using only 
+the GIMP, and blokkie has already approved it.
+
+You can find a 400x400 png version with transparent background at:
+http://utenti.lycos.it/rensel/projectdev/projectdev_logo_2.png
+
+And this is for Mogwa_ (144x104, png with transparent bg) for the website:
+http://utenti.lycos.it/rensel/projectdev/projectdev_logo_2_top.png
+
+I hope you like it. I'm going to work on some other stuff like a 
+fbsplash for Project dEv, so stay tuned ;)
+
+Amar "Rensel" Hadzihasanovic
+
+ 
+ 
+ --
+ Email.it, the professional e-mail, gratis per te: http://www.email.it/f
+ 
+ Sponsor:
+ Conto Arancio. Zero rischi, zero spese, tanti interessi.
+ Clicca qui: http://adv.email.it/cgi-bin/foclick.cgi?mid=658&d=13-11
+
+
+From t.fernagut at burningfrog.be  Tue Nov 16 12:45:15 2004
+From: t.fernagut at burningfrog.be (Thibaut Fernagut)
+Date: Tue, 16 Nov 2004 11:45:15 +0000
+Subject: [Projectdev-devel] some updates
+Message-ID: <1100605515.2955.9.camel@boss>
+
+I've build and uploaded :
+
+tk
+tcl
+python
+libxml
+imagemagick
+
+
+this is for making screenshots and putting it on the website later
+
+Next on my todo list is :
+
+rebuilding grub to enable fb and fbsplash by default
+rebuild bash with a cool bashrc
+build mozilla for mail and browsing
+
+(maybe xchat and xmms and xmms2 later for e17 audio player)
+
+Also alsa stuff and HAL , D-bus will come in later if I find the time
+today 
+
+Cheers,
+Blokkie
+
+
+
+-- 
+Thibaut Fernagut, Director
+
+Burning Frog  - I.T. Services To Set Your World On Fire
+Doornstraat 32, B-8970, Poperinge, Belgium
+Tel: +32 (0)57 332967 Fax: +32 (0)57 332967 GSM: +32 (0)473 774334
+Email : t.fernagut at burningfrog.be   Web: www.burningfrog.be
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 189 bytes
+Desc: This is a digitally signed message part
+URL: <https://lists.berlios.de/pipermail/projectdev-devel/attachments/20041116/87af3f1b/attachment.pgp>
+
+From t.fernagut at burningfrog.be  Mon Nov 22 15:00:45 2004
+From: t.fernagut at burningfrog.be (Thibaut Fernagut)
+Date: Mon, 22 Nov 2004 14:00:45 +0000
+Subject: [Projectdev-devel] raster IRC log  about open embedded
+Message-ID: <1101132045.6557.19.camel@boss>
+
+
+
+http://free-electrons.com/doc/embedded_linux_tools/img32.html
+
+
+<raster> keep working
+<raster> :)
+<blokkie> will do ,  a rebuild of EFL is happening , and the apps are
+expected to be fnished at the end of the week
+<raster> dont get so settled
+<raster> you shoudl be able to rebuild within like 20 mins
+<raster> cvs keeps changing
+<blokkie> we have a cvs and a package system that makes rebuilds very
+easy
+<blokkie> only thing to do is change the source-pkg  and type   makepkg
+then upload it again  :-)
+<raster> cool
+<raster> as good as openembedded?
+<blokkie> and if people wanna get the latest greatest source  they just
+type in   abs <enter>  and all cvs stuff gets in  /var/projectdev   for
+them to devel as they see fit 
+* blokkie doesn't know openembedded 
+<raster> cool
+<raster> i suggest you look at it
+<blokkie> will do 
+<raster> it builds entirely form source (buidls mebedde d.ipk packgages)
+<raster> but
+<raster> it even builds its own compiler
+<raster> using your current one
+<raster> and it builds ina buildroot and can build for any architecture
+on your current one
+<raster> oemake world
+<raster> will build everything (and if appropriate cvs update etc.)
+<raster> :)
+<blokkie> *grin*  need to check it out 
+<blokkie> raster  I still think we will stay with our current shema coz
+all the devlopers now know how to use it 
+<raster> thats cool
+<raster> but u may find some sueful thigns to use from it
+<raster> ideas etc.
+
+
+
+-- 
+Thibaut Fernagut, Director
+
+Burning Frog  - I.T. Services To Set Your World On Fire
+Doornstraat 32, B-8970, Poperinge, Belgium
+Tel: +32 (0)57 332967 Fax: +32 (0)57 332967 GSM: +32 (0)473 774334
+Email : t.fernagut at burningfrog.be   Web: www.burningfrog.be
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 189 bytes
+Desc: This is a digitally signed message part
+URL: <https://lists.berlios.de/pipermail/projectdev-devel/attachments/20041122/f40dde43/attachment.pgp>
+

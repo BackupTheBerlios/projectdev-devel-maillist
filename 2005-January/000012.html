@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Projectdev-devel] Live CD and other stuff
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/projectdev-devel/2005-January/index.html" >
+   <LINK REL="made" HREF="mailto:projectdev-devel%40lists.berlios.de?Subject=Re%3A%20%5BProjectdev-devel%5D%20Live%20CD%20and%20other%20stuff&In-Reply-To=%3C41DAFFE4.6090207%40burningfrog.be%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000013.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Projectdev-devel] Live CD and other stuff</H1>
+    <B>Thibaut Fernagut</B> 
+    <A HREF="mailto:projectdev-devel%40lists.berlios.de?Subject=Re%3A%20%5BProjectdev-devel%5D%20Live%20CD%20and%20other%20stuff&In-Reply-To=%3C41DAFFE4.6090207%40burningfrog.be%3E"
+       TITLE="[Projectdev-devel] Live CD and other stuff">blokkie at burningfrog.be
+       </A><BR>
+    <I>Tue Jan  4 21:43:16 CET 2005</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000013.html">[Projectdev-devel] Live CD and other stuff
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#12">[ date ]</a>
+              <a href="thread.html#12">[ thread ]</a>
+              <a href="subject.html#12">[ subject ]</a>
+              <a href="author.html#12">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Yo ,
+
+
+I've made a livecd install ISO CD  that still needs a lot of hacking.
+The idea is to use this one to install and build newer packages. It's
+alot easier to build ISO's this way then we did it the previous way.
+
+Also here a fast howto  for using CVS and building packages.
+
+
+bash-3.00$ cat projectdev_howto.txt
+version 0.1
+Auther: Blokkie &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/projectdev-devel">t.fernagut at burningfrog.be</A>&gt;
+
+If you have a developers account use your dev-account name where is needed.
+
+CVS
+---
+
+First we export our CVS env :
+
+$ export CVS_RSH=ssh &lt;enter&gt;
+
+
+Logging in :
+
+Anonymous :
+$ cvs -d:pserver:<A HREF="https://lists.berlios.de/mailman/listinfo/projectdev-devel">anonymous at cvs.projectdev.berlios.de</A>:/cvsroot/projectdev
+login  &lt;enter&gt;
+for anonymous  there is no password so you can just hit &lt;enter&gt; again. 
+
+Developers :
+$ cvs -d:pserver:<A HREF="https://lists.berlios.de/mailman/listinfo/projectdev-devel">USERNAME at cvs.projectdev.berlios.de</A>:/cvsroot/projectdev
+login &lt;enter&gt;
+enter your passwd
+
+Getting the cvs repository :
+
+Anonymous :
+$ cvs -z3
+-d:pserver:<A HREF="https://lists.berlios.de/mailman/listinfo/projectdev-devel">anonymous at cvs.projectdev.berlios.de</A>:/cvsroot/projectdev co
+current &lt;enter&gt;
+
+Developers :
+$ cvs -z3
+-d:pserver:<A HREF="https://lists.berlios.de/mailman/listinfo/projectdev-devel">USERNAME at cvs.projectdev.berlios.de</A>:/cvsroot/projectdev co
+current &lt;enter&gt;
+
+
+The rest of this document only apply's to developers
+
+Whenever you want do do something on the CVS  don't forget to export
+CVS_RSH=ssh (or put it in your profile localy)
+
+Now we want to hack something up, rebuild a package or whatever , make
+sure you update your local cvs-repository :
+
+$ export CVS_RSH=ssh
+$ cd /path/to/your/local/cvs/current
+$ cvs update
+
+
+There , now it's up to date.  Say you want to rebuild a package like
+nano coz there is a new version available for example.
+
+$ cd  /path/to/your/local/cvs/current
+$ cd /base/editors/nano/
+$ ls
+CVS  PKGBUILD
+$ vi PKGBUILD
+
+Now you change whatever needs to be changed and you save it . For example
+
+pkgname=nano
+pkgver=1.2.4
+pkgrel=2
+
+will be :
+
+pkgname=nano
+pkgver=1.2.6
+pkgrel=1
+
+
+First we want to build it and check if it's actually working and
+building. So we do :
+
+$ makepkg
+
+This will fetch the source and compile and package nano as you have
+defined in the PKGBUILD
+Also .. if there is a new version you prolly need to make new md5sums.
+Otherwise makepkg's checksum won't pass. Add the new checksum like this :
+
+$ makepkg -g &gt;&gt; PKGBUILD
+$ vi PKGBUILD
+
+Remove the old md5 and put the new md5 where it should be
+
+
+Let's say that the build works nicely and there is a sweet new
+nano-1.2.6-1.pkg.tar.gz  in your dir. First thing to do is test the app,
+see if it works :
+
+$ pacman -A nano-1.2.6-1.pkg.tar.gz  (if it's not yet installed)
+$ pacman -U nano-1.2.6-1.pkg.tar.gz  (to upgrade the existing nano)
+
+If that all works fine we can now commit our new PKGBUILD and other
+neccesarry files to the CVS-repository so other developers can use your
+PKGBUILD too :
+
+$ cd /path/to/your/local/cvs/current/base/editors/nano/
+$ CVS add -m &quot;New PKGBUILD - version 1.2.6&quot; PKGBUILD  (if it did not exist)
+$ CVS commit -m &quot;New PKGBUILD - version 1.2.6&quot; PKGBUILD (if it was there
+and your version needs to replace it)
+
+In both cases it will ask for your developers passwd .
+
+
+Uploading your package.pkg.tar.gz :
+
+$ scp nano-1.2.6-1.pkg.tar.gz
+<A HREF="https://lists.berlios.de/mailman/listinfo/projectdev-devel">USERNAME at shell.berlios.de</A>:/home/groups/ftp/pub/projectdev/current  
+Keep in mind that you put it in the correct dir otherwise pacman's
+rebuildb won't work
+
+Next we need to change the perms of the file in the ftp dir otherwise
+nobody else will be able to delete/move/replace it:
+
+$ ssh <A HREF="https://lists.berlios.de/mailman/listinfo/projectdev-devel">USERNAME at shell.berlios.de</A>
+$ cd /home/groups/ftp/pub/projectdev/current
+$ chmod 664 nano-1.2.6-1.pkg.tar.gz
+
+
+Don't exit now coz you still need to rerun mkdb so all ProjectDEV users
+will be able to automagicly fetch your fresh build package :
+
+$ /home/groups/projectdev/htdocs/mkdb current
+
+There ...  you will see a hole heap of stuff scrolling but be sure that
+there is no error at the end .
+
+
+That's it for now :-)
+
+- Blokkie
+
+
+-- 
+Thibaut Fernagut, Director
+ 
+Burning Frog  - I.T. Services To Set Your World On Fire
+Doornstraat 32, B-8970, Poperinge, Belgium
+Tel: +32 (0)57 332967 Fax: +32 (0)57 332967 GSM: +32 (0)473 774334
+Email : <A HREF="https://lists.berlios.de/mailman/listinfo/projectdev-devel">t.fernagut at burningfrog.be</A>   Web: www.burningfrog.be
+
+
+
+
+[There are 10 types of people in the world... those who understand binary and those who don't.]
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000013.html">[Projectdev-devel] Live CD and other stuff
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#12">[ date ]</a>
+              <a href="thread.html#12">[ thread ]</a>
+              <a href="subject.html#12">[ subject ]</a>
+              <a href="author.html#12">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/projectdev-devel">More information about the Projectdev-devel
+mailing list</a><br>
+</body></html>

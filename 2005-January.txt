@@ -1,0 +1,756 @@
+From blokkie at burningfrog.be  Tue Jan  4 21:43:16 2005
+From: blokkie at burningfrog.be (Thibaut Fernagut)
+Date: Tue, 04 Jan 2005 20:43:16 +0000
+Subject: [Projectdev-devel] Live CD and other stuff
+Message-ID: <41DAFFE4.6090207@burningfrog.be>
+
+Yo ,
+
+
+I've made a livecd install ISO CD  that still needs a lot of hacking.
+The idea is to use this one to install and build newer packages. It's
+alot easier to build ISO's this way then we did it the previous way.
+
+Also here a fast howto  for using CVS and building packages.
+
+
+bash-3.00$ cat projectdev_howto.txt
+version 0.1
+Auther: Blokkie <t.fernagut at burningfrog.be>
+
+If you have a developers account use your dev-account name where is needed.
+
+CVS
+---
+
+First we export our CVS env :
+
+$ export CVS_RSH=ssh <enter>
+
+
+Logging in :
+
+Anonymous :
+$ cvs -d:pserver:anonymous at cvs.projectdev.berlios.de:/cvsroot/projectdev
+login  <enter>
+for anonymous  there is no password so you can just hit <enter> again. 
+
+Developers :
+$ cvs -d:pserver:USERNAME at cvs.projectdev.berlios.de:/cvsroot/projectdev
+login <enter>
+enter your passwd
+
+Getting the cvs repository :
+
+Anonymous :
+$ cvs -z3
+-d:pserver:anonymous at cvs.projectdev.berlios.de:/cvsroot/projectdev co
+current <enter>
+
+Developers :
+$ cvs -z3
+-d:pserver:USERNAME at cvs.projectdev.berlios.de:/cvsroot/projectdev co
+current <enter>
+
+
+The rest of this document only apply's to developers
+
+Whenever you want do do something on the CVS  don't forget to export
+CVS_RSH=ssh (or put it in your profile localy)
+
+Now we want to hack something up, rebuild a package or whatever , make
+sure you update your local cvs-repository :
+
+$ export CVS_RSH=ssh
+$ cd /path/to/your/local/cvs/current
+$ cvs update
+
+
+There , now it's up to date.  Say you want to rebuild a package like
+nano coz there is a new version available for example.
+
+$ cd  /path/to/your/local/cvs/current
+$ cd /base/editors/nano/
+$ ls
+CVS  PKGBUILD
+$ vi PKGBUILD
+
+Now you change whatever needs to be changed and you save it . For example
+
+pkgname=nano
+pkgver=1.2.4
+pkgrel=2
+
+will be :
+
+pkgname=nano
+pkgver=1.2.6
+pkgrel=1
+
+
+First we want to build it and check if it's actually working and
+building. So we do :
+
+$ makepkg
+
+This will fetch the source and compile and package nano as you have
+defined in the PKGBUILD
+Also .. if there is a new version you prolly need to make new md5sums.
+Otherwise makepkg's checksum won't pass. Add the new checksum like this :
+
+$ makepkg -g >> PKGBUILD
+$ vi PKGBUILD
+
+Remove the old md5 and put the new md5 where it should be
+
+
+Let's say that the build works nicely and there is a sweet new
+nano-1.2.6-1.pkg.tar.gz  in your dir. First thing to do is test the app,
+see if it works :
+
+$ pacman -A nano-1.2.6-1.pkg.tar.gz  (if it's not yet installed)
+$ pacman -U nano-1.2.6-1.pkg.tar.gz  (to upgrade the existing nano)
+
+If that all works fine we can now commit our new PKGBUILD and other
+neccesarry files to the CVS-repository so other developers can use your
+PKGBUILD too :
+
+$ cd /path/to/your/local/cvs/current/base/editors/nano/
+$ CVS add -m "New PKGBUILD - version 1.2.6" PKGBUILD  (if it did not exist)
+$ CVS commit -m "New PKGBUILD - version 1.2.6" PKGBUILD (if it was there
+and your version needs to replace it)
+
+In both cases it will ask for your developers passwd .
+
+
+Uploading your package.pkg.tar.gz :
+
+$ scp nano-1.2.6-1.pkg.tar.gz
+USERNAME at shell.berlios.de:/home/groups/ftp/pub/projectdev/current  
+Keep in mind that you put it in the correct dir otherwise pacman's
+rebuildb won't work
+
+Next we need to change the perms of the file in the ftp dir otherwise
+nobody else will be able to delete/move/replace it:
+
+$ ssh USERNAME at shell.berlios.de
+$ cd /home/groups/ftp/pub/projectdev/current
+$ chmod 664 nano-1.2.6-1.pkg.tar.gz
+
+
+Don't exit now coz you still need to rerun mkdb so all ProjectDEV users
+will be able to automagicly fetch your fresh build package :
+
+$ /home/groups/projectdev/htdocs/mkdb current
+
+There ...  you will see a hole heap of stuff scrolling but be sure that
+there is no error at the end .
+
+
+That's it for now :-)
+
+- Blokkie
+
+
+-- 
+Thibaut Fernagut, Director
+ 
+Burning Frog  - I.T. Services To Set Your World On Fire
+Doornstraat 32, B-8970, Poperinge, Belgium
+Tel: +32 (0)57 332967 Fax: +32 (0)57 332967 GSM: +32 (0)473 774334
+Email : t.fernagut at burningfrog.be   Web: www.burningfrog.be
+
+
+
+
+[There are 10 types of people in the world... those who understand binary and those who don't.]
+
+
+
+From blokkie at burningfrog.be  Tue Jan  4 22:30:10 2005
+From: blokkie at burningfrog.be (Thibaut Fernagut)
+Date: Tue, 04 Jan 2005 21:30:10 +0000
+Subject: [Projectdev-devel] Live CD and other stuff
+In-Reply-To: <41DAFFE4.6090207@burningfrog.be>
+References: <41DAFFE4.6090207@burningfrog.be>
+Message-ID: <41DB0AE2.9040007@burningfrog.be>
+
+update :
+
+
+upload your packages to the ftp's  ../packages/{base,cvs,desktop,extra}
+instead of ../{?urrent,extra}
+
+
+error pointed out by dpb
+
+
+
+Thibaut Fernagut wrote:
+
+>Yo ,
+>
+>
+>I've made a livecd install ISO CD  that still needs a lot of hacking.
+>The idea is to use this one to install and build newer packages. It's
+>alot easier to build ISO's this way then we did it the previous way.
+>
+>Also here a fast howto  for using CVS and building packages.
+>
+>
+>bash-3.00$ cat projectdev_howto.txt
+>version 0.1
+>Auther: Blokkie <t.fernagut at burningfrog.be>
+>
+>If you have a developers account use your dev-account name where is needed.
+>
+>CVS
+>---
+>
+>First we export our CVS env :
+>
+>$ export CVS_RSH=ssh <enter>
+>
+>
+>Logging in :
+>
+>Anonymous :
+>$ cvs -d:pserver:anonymous at cvs.projectdev.berlios.de:/cvsroot/projectdev
+>login  <enter>
+>for anonymous  there is no password so you can just hit <enter> again. 
+>
+>Developers :
+>$ cvs -d:pserver:USERNAME at cvs.projectdev.berlios.de:/cvsroot/projectdev
+>login <enter>
+>enter your passwd
+>
+>Getting the cvs repository :
+>
+>Anonymous :
+>$ cvs -z3
+>-d:pserver:anonymous at cvs.projectdev.berlios.de:/cvsroot/projectdev co
+>current <enter>
+>
+>Developers :
+>$ cvs -z3
+>-d:pserver:USERNAME at cvs.projectdev.berlios.de:/cvsroot/projectdev co
+>current <enter>
+>
+>
+>The rest of this document only apply's to developers
+>
+>Whenever you want do do something on the CVS  don't forget to export
+>CVS_RSH=ssh (or put it in your profile localy)
+>
+>Now we want to hack something up, rebuild a package or whatever , make
+>sure you update your local cvs-repository :
+>
+>$ export CVS_RSH=ssh
+>$ cd /path/to/your/local/cvs/current
+>$ cvs update
+>
+>
+>There , now it's up to date.  Say you want to rebuild a package like
+>nano coz there is a new version available for example.
+>
+>$ cd  /path/to/your/local/cvs/current
+>$ cd /base/editors/nano/
+>$ ls
+>CVS  PKGBUILD
+>$ vi PKGBUILD
+>
+>Now you change whatever needs to be changed and you save it . For example
+>
+>pkgname=nano
+>pkgver=1.2.4
+>pkgrel=2
+>
+>will be :
+>
+>pkgname=nano
+>pkgver=1.2.6
+>pkgrel=1
+>
+>
+>First we want to build it and check if it's actually working and
+>building. So we do :
+>
+>$ makepkg
+>
+>This will fetch the source and compile and package nano as you have
+>defined in the PKGBUILD
+>Also .. if there is a new version you prolly need to make new md5sums.
+>Otherwise makepkg's checksum won't pass. Add the new checksum like this :
+>
+>$ makepkg -g >> PKGBUILD
+>$ vi PKGBUILD
+>
+>Remove the old md5 and put the new md5 where it should be
+>
+>
+>Let's say that the build works nicely and there is a sweet new
+>nano-1.2.6-1.pkg.tar.gz  in your dir. First thing to do is test the app,
+>see if it works :
+>
+>$ pacman -A nano-1.2.6-1.pkg.tar.gz  (if it's not yet installed)
+>$ pacman -U nano-1.2.6-1.pkg.tar.gz  (to upgrade the existing nano)
+>
+>If that all works fine we can now commit our new PKGBUILD and other
+>neccesarry files to the CVS-repository so other developers can use your
+>PKGBUILD too :
+>
+>$ cd /path/to/your/local/cvs/current/base/editors/nano/
+>$ CVS add -m "New PKGBUILD - version 1.2.6" PKGBUILD  (if it did not exist)
+>$ CVS commit -m "New PKGBUILD - version 1.2.6" PKGBUILD (if it was there
+>and your version needs to replace it)
+>
+>In both cases it will ask for your developers passwd .
+>
+>
+>Uploading your package.pkg.tar.gz :
+>
+>$ scp nano-1.2.6-1.pkg.tar.gz
+>USERNAME at shell.berlios.de:/home/groups/ftp/pub/projectdev/current  
+>Keep in mind that you put it in the correct dir otherwise pacman's
+>rebuildb won't work
+>
+>Next we need to change the perms of the file in the ftp dir otherwise
+>nobody else will be able to delete/move/replace it:
+>
+>$ ssh USERNAME at shell.berlios.de
+>$ cd /home/groups/ftp/pub/projectdev/current
+>$ chmod 664 nano-1.2.6-1.pkg.tar.gz
+>
+>
+>Don't exit now coz you still need to rerun mkdb so all ProjectDEV users
+>will be able to automagicly fetch your fresh build package :
+>
+>$ /home/groups/projectdev/htdocs/mkdb current
+>
+>There ...  you will see a hole heap of stuff scrolling but be sure that
+>there is no error at the end .
+>
+>
+>That's it for now :-)
+>
+>- Blokkie
+>
+>
+>  
+>
+
+
+-- 
+Thibaut Fernagut, Director
+ 
+Burning Frog  - I.T. Services To Set Your World On Fire
+Doornstraat 32, B-8970, Poperinge, Belgium
+Tel: +32 (0)57 332967 Fax: +32 (0)57 332967 GSM: +32 (0)473 774334
+Email : t.fernagut at burningfrog.be   Web: www.burningfrog.be
+
+
+
+
+[There are 10 types of people in the world... those who understand binary and those who don't.]
+
+
+
+From mogwa at mogwa.net  Fri Jan  7 00:35:53 2005
+From: mogwa at mogwa.net (Luke Morfitt)
+Date: Thu, 6 Jan 2005 23:35:53 -0000 (GMT)
+Subject: [Projectdev-devel] CVS access Please
+Message-ID: <46480.213.249.225.207.1105054553.squirrel@213.249.225.207>
+
+Hey guys i have a berlios account but i dont have cvs access at the moment.
+
+Has any one got an idea how i get get cvs access?
+
+Thanks.
+
+berlios account mogwa
+
+cheers.
+Mogwa_
+
+
+--
+This message has been scanned for viruses and dangerous content by the Viper Internet email scanner, and is believed to be clean.
+
+Email service provided by Viper Internet
+http://www.viper.uk.net
+
+
+
+From dpb at backarrow.org  Fri Jan  7 08:46:38 2005
+From: dpb at backarrow.org (dpb)
+Date: Fri, 7 Jan 2005 09:46:38 +0200
+Subject: [Projectdev-devel] CVS access Please
+In-Reply-To: <46480.213.249.225.207.1105054553.squirrel@213.249.225.207>
+References: <46480.213.249.225.207.1105054553.squirrel@213.249.225.207>
+Message-ID: <20050107074633.GA20791@kinabalu.rinnekoti1.local>
+
+On Thu, Jan 06, 2005 at 11:35:53PM -0000, Luke Morfitt wrote:
+> Hey guys i have a berlios account but i dont have cvs access at the moment.
+> 
+> Has any one got an idea how i get get cvs access?
+> 
+> Thanks.
+> 
+> berlios account mogwa
+> 
+> cheers.
+> Mogwa_
+> 
+
+Hi. :)
+
+I added you to the developer list. You should have access to cvs 
+in a few hours, when the berlios cronjobs update the permissions.
+
+You might need to login to shell.berlios.de first to activate 
+your shell account (if you haven't done it already).
+
+-dpb
+
+
+From mogwa at mogwa.net  Mon Jan 10 00:41:07 2005
+From: mogwa at mogwa.net (Luke Morfitt)
+Date: Sun, 9 Jan 2005 23:41:07 -0000 (GMT)
+Subject: [Projectdev-devel] CVS access Please
+In-Reply-To: <20050107074633.GA20791@kinabalu.rinnekoti1.local>
+References: <46480.213.249.225.207.1105054553.squirrel@213.249.225.207>
+    <20050107074633.GA20791@kinabalu.rinnekoti1.local>
+Message-ID: <34605.83.100.181.66.1105314067.squirrel@83.100.181.66>
+
+On Fri, January 7, 2005 7:46, dpb said:
+> On Thu, Jan 06, 2005 at 11:35:53PM -0000, Luke Morfitt wrote:
+>> Hey guys i have a berlios account but i dont have cvs access at the
+>> moment.
+>>
+>> Has any one got an idea how i get get cvs access?
+>>
+>> Thanks.
+>>
+>> berlios account mogwa
+>>
+>> cheers.
+>> Mogwa_
+>>
+>
+> Hi. :)
+>
+> I added you to the developer list. You should have access to cvs
+> in a few hours, when the berlios cronjobs update the permissions.
+>
+> You might need to login to shell.berlios.de first to activate
+> your shell account (if you haven't done it already).
+>
+> -dpb
+
+Thanks, i have tried to login to the shell but i just get access denied, i
+have just reset my password so i will try again tomorrow to see if i can
+gain access.
+
+Thanks
+Mogwa_
+
+> _______________________________________________
+> Projectdev-devel mailing list
+> Projectdev-devel at lists.berlios.de
+> http://lists.berlios.de/mailman/listinfo/projectdev-devel
+>
+> --
+> This message has been scanned for viruses and dangerous content by the
+> Viper Internet email scanner, and is believed to be clean.
+>
+> Email service provided by Viper Internet
+> http://www.viper.uk.net
+>
+
+
+
+--
+This message has been scanned for viruses and dangerous content by the Viper Internet email scanner, and is believed to be clean.
+
+Email service provided by Viper Internet
+http://www.viper.uk.net
+
+
+
+From blokkie at burningfrog.be  Tue Jan 11 00:38:38 2005
+From: blokkie at burningfrog.be (Thibaut Fernagut)
+Date: Mon, 10 Jan 2005 23:38:38 +0000
+Subject: [Projectdev-devel] mogwa site doc section
+Message-ID: <41E311FE.5070105@burningfrog.be>
+
+Yo ...
+
+you said you'll create a doc section on the site to host our howto's etc .
+
+I've send some stuff and a update , dpb will send later when he's
+finished another howto so my Q to you is when this doc  section will be
+in place ?
+
+---  cheers ,
+blokkie 
+
+-- 
+Thibaut Fernagut, Director
+ 
+Burning Frog  - I.T. Services To Set Your World On Fire
+Doornstraat 32, B-8970, Poperinge, Belgium
+Tel: +32 (0)57 332967 Fax: +32 (0)57 332967 GSM: +32 (0)473 774334
+Email : t.fernagut at burningfrog.be   Web: www.burningfrog.be
+
+
+
+
+[There are 10 types of people in the world... those who understand binary and those who don't.]
+
+
+
+From blokkie at burningfrog.be  Mon Jan 17 03:35:47 2005
+From: blokkie at burningfrog.be (Thibaut Fernagut)
+Date: Mon, 17 Jan 2005 02:35:47 +0000
+Subject: [Projectdev-devel] updates
+Message-ID: <41EB2483.7010504@burningfrog.be>
+
+mogwa ... come on .. get a faq and install in place man ...
+
+
+I've upgraded glibc to 3.4 ...  big sucka .
+I also added hwd to base/extra/system/hwd  for our install iso
+new module-init-tools
+
+
+I'll work on the other stuff  later
+
+dpb  ... what else do you need to get the new install iso working ???
+
+
+cheers ,
+blokkie
+
+-- 
+Thibaut Fernagut, Director
+ 
+Burning Frog  - I.T. Services To Set Your World On Fire
+Doornstraat 32, B-8970, Poperinge, Belgium
+Tel: +32 (0)57 332967 Fax: +32 (0)57 332967 GSM: +32 (0)473 774334
+Email : t.fernagut at burningfrog.be   Web: www.burningfrog.be
+
+
+
+
+[There are 10 types of people in the world... those who understand binary and those who don't.]
+
+
+
+From blokkie at burningfrog.be  Mon Jan 17 04:07:58 2005
+From: blokkie at burningfrog.be (Thibaut Fernagut)
+Date: Mon, 17 Jan 2005 03:07:58 +0000
+Subject: [Projectdev-devel] updates
+Message-ID: <41EB2C0E.4030609@burningfrog.be>
+
+updated module-init-tools
+glibc (big sucka)
+irssi
+
+uploading OOo  base atm .. it'll take some time  , then rebuilding the db .
+
+dpb .. I hope it's all updated so we can release a new iso .
+
+
+I'm on-line all day tomorrow
+
+
+cheers ,
+
+blokkie
+
+-- 
+Thibaut Fernagut, Director
+ 
+Burning Frog  - I.T. Services To Set Your World On Fire
+Doornstraat 32, B-8970, Poperinge, Belgium
+Tel: +32 (0)57 332967 Fax: +32 (0)57 332967 GSM: +32 (0)473 774334
+Email : t.fernagut at burningfrog.be   Web: www.burningfrog.be
+
+
+
+
+[There are 10 types of people in the world... those who understand binary and those who don't.]
+
+
+
+From dpb at backarrow.org  Mon Jan 17 08:21:41 2005
+From: dpb at backarrow.org (dpb)
+Date: Mon, 17 Jan 2005 09:21:41 +0200
+Subject: [Projectdev-devel] updates
+In-Reply-To: <41EB2483.7010504@burningfrog.be>
+References: <41EB2483.7010504@burningfrog.be>
+Message-ID: <20050117072140.GA2577@kinabalu.rinnekoti1.local>
+
+On Mon, Jan 17, 2005 at 02:35:47AM +0000, Thibaut Fernagut wrote:
+> dpb  ... what else do you need to get the new install iso working ???
+
+The setup script. ;x
+
+
+-dpb
+
+
+From dpb at backarrow.org  Wed Jan 19 08:12:31 2005
+From: dpb at backarrow.org (dpb)
+Date: Wed, 19 Jan 2005 09:12:31 +0200
+Subject: [Projectdev-devel] [jvinet@zeroflux.org: [arch] Arch 2.6 kernels move to the -as patchset]
+Message-ID: <20050119071231.GA2501@kinabalu.rinnekoti1.local>
+
+Should we patch the Project dEv kernel to this too?
+
+-dpb
+
+
+----- Forwarded message from Judd Vinet <jvinet at zeroflux.org> -----
+
+X-Original-To: dpb at backarrow.org
+Delivered-To: draco at backarrow.org
+Date: Tue, 18 Jan 2005 12:09:23 -0800
+From: Judd Vinet <jvinet at zeroflux.org>
+To: arch at archlinux.org
+User-Agent: Mutt/1.4.2.1i
+Subject: [arch] Arch 2.6 kernels move to the -as patchset
+X-BeenThere: arch at archlinux.org
+X-Mailman-Version: 2.1.5
+Precedence: list
+Reply-To: General Discusson about Arch Linux <arch at archlinux.org>
+List-Id: General Discusson about Arch Linux <arch.archlinux.org>
+List-Unsubscribe: <http://www.archlinux.org/mailman/listinfo/arch>,
+	<mailto:arch-request at archlinux.org?subject=unsubscribe>
+List-Archive: <http://www.archlinux.org/pipermail/arch>
+List-Post: <mailto:arch at archlinux.org>
+List-Help: <mailto:arch-request at archlinux.org?subject=help>
+List-Subscribe: <http://www.archlinux.org/mailman/listinfo/arch>,
+	<mailto:arch-request at archlinux.org?subject=subscribe>
+Errors-To: arch-bounces at archlinux.org
+
+To help plug the various bugs and vulnerabilities that have recently
+been cropping up in the 2.6 kernels, we've decided to try out the new
+-as[1] patchset by Andres Salomon. As he wrote[2] on the lkml, this patchset
+will fix the "obvious" bugs and vulnerabilities in the mainline kernel,
+in an effort to provide a solid base kernel for distributions to use.
+
+This patchset does not add any new features or drivers -- it is just a
+comprehensive collection of fixes that should be included in the vanilla
+kernel anyway.
+
+Report any problems or concerns to Mr. Bugtracker.
+
+
+- J
+
+
+[1] http://www.acm.rpi.edu/~dilinger/patches/
+[2] http://kerneltrap.org/node/4545
+
+
+_______________________________________________
+arch mailing list
+arch at archlinux.org
+http://www.archlinux.org/mailman/listinfo/arch
+
+----- End forwarded message -----
+
+
+From blokkie at burningfrog.be  Wed Jan 19 09:52:45 2005
+From: blokkie at burningfrog.be (Thibaut Fernagut)
+Date: Wed, 19 Jan 2005 08:52:45 +0000
+Subject: [Projectdev-devel] [jvinet@zeroflux.org: [arch] Arch 2.6 kernels
+ move to the -as patchset]
+In-Reply-To: <20050119071231.GA2501@kinabalu.rinnekoti1.local>
+References: <20050119071231.GA2501@kinabalu.rinnekoti1.local>
+Message-ID: <41EE1FDD.7000209@burningfrog.be>
+
+IMO only after arch has tested it extensivly .
+
+-blokkie
+
+dpb wrote:
+
+>Should we patch the Project dEv kernel to this too?
+>
+>-dpb
+>
+>
+>----- Forwarded message from Judd Vinet <jvinet at zeroflux.org> -----
+>
+>X-Original-To: dpb at backarrow.org
+>Delivered-To: draco at backarrow.org
+>Date: Tue, 18 Jan 2005 12:09:23 -0800
+>From: Judd Vinet <jvinet at zeroflux.org>
+>To: arch at archlinux.org
+>User-Agent: Mutt/1.4.2.1i
+>Subject: [arch] Arch 2.6 kernels move to the -as patchset
+>X-BeenThere: arch at archlinux.org
+>X-Mailman-Version: 2.1.5
+>Precedence: list
+>Reply-To: General Discusson about Arch Linux <arch at archlinux.org>
+>List-Id: General Discusson about Arch Linux <arch.archlinux.org>
+>List-Unsubscribe: <http://www.archlinux.org/mailman/listinfo/arch>,
+>	<mailto:arch-request at archlinux.org?subject=unsubscribe>
+>List-Archive: <http://www.archlinux.org/pipermail/arch>
+>List-Post: <mailto:arch at archlinux.org>
+>List-Help: <mailto:arch-request at archlinux.org?subject=help>
+>List-Subscribe: <http://www.archlinux.org/mailman/listinfo/arch>,
+>	<mailto:arch-request at archlinux.org?subject=subscribe>
+>Errors-To: arch-bounces at archlinux.org
+>
+>To help plug the various bugs and vulnerabilities that have recently
+>been cropping up in the 2.6 kernels, we've decided to try out the new
+>-as[1] patchset by Andres Salomon. As he wrote[2] on the lkml, this patchset
+>will fix the "obvious" bugs and vulnerabilities in the mainline kernel,
+>in an effort to provide a solid base kernel for distributions to use.
+>
+>This patchset does not add any new features or drivers -- it is just a
+>comprehensive collection of fixes that should be included in the vanilla
+>kernel anyway.
+>
+>Report any problems or concerns to Mr. Bugtracker.
+>
+>
+>- J
+>
+>
+>[1] http://www.acm.rpi.edu/~dilinger/patches/
+>[2] http://kerneltrap.org/node/4545
+>
+>
+>_______________________________________________
+>arch mailing list
+>arch at archlinux.org
+>http://www.archlinux.org/mailman/listinfo/arch
+>
+>----- End forwarded message -----
+>_______________________________________________
+>Projectdev-devel mailing list
+>Projectdev-devel at lists.berlios.de
+>http://lists.berlios.de/mailman/listinfo/projectdev-devel
+>  
+>
+
+
+-- 
+Thibaut Fernagut, Director
+ 
+Burning Frog  - I.T. Services To Set Your World On Fire
+Doornstraat 32, B-8970, Poperinge, Belgium
+Tel: +32 (0)57 332967 Fax: +32 (0)57 332967 GSM: +32 (0)473 774334
+Email : t.fernagut at burningfrog.be   Web: www.burningfrog.be
+
+
+
+
+[There are 10 types of people in the world... those who understand binary and those who don't.]
+
+
+

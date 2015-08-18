@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Projectdev-devel] Test CVS is now &quot;current&quot;
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/projectdev-devel/2004-December/index.html" >
+   <LINK REL="made" HREF="mailto:projectdev-devel%40lists.berlios.de?Subject=Re%3A%20%5BProjectdev-devel%5D%20Test%20CVS%20is%20now%20%22current%22&In-Reply-To=%3C41BAE791.5050608%40email.it%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000009.html">
+   <LINK REL="Next"  HREF="000011.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Projectdev-devel] Test CVS is now &quot;current&quot;</H1>
+    <B>rensel</B> 
+    <A HREF="mailto:projectdev-devel%40lists.berlios.de?Subject=Re%3A%20%5BProjectdev-devel%5D%20Test%20CVS%20is%20now%20%22current%22&In-Reply-To=%3C41BAE791.5050608%40email.it%3E"
+       TITLE="[Projectdev-devel] Test CVS is now &quot;current&quot;">rensel at email.it
+       </A><BR>
+    <I>Sat Dec 11 13:26:57 CET 2004</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000009.html">[Projectdev-devel] udev-046-2
+</A></li>
+        <LI>Next message: <A HREF="000011.html">[Projectdev-devel] Test CVS is now &quot;current&quot;
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#10">[ date ]</a>
+              <a href="thread.html#10">[ thread ]</a>
+              <a href="subject.html#10">[ subject ]</a>
+              <a href="author.html#10">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Yesterday dpb and I decided to finally switch to my &quot;test&quot; CVS tree.
+It contains four directories atm: base, desktop, cvs and extra.
+BASE contains all the stuff which will go in the base ISOs, so that now 
+it will be easier to build them.
+DESKTOP contains all the libraries and applications needed to get a 
+complete working desktop environment, including X, except for CVS apps.
+CVS will be a special repository: we will set &quot;current&quot; as pkgver for 
+all CVS apps and put the build date in description; CVS binaries will be 
+built only for new releases, and if a user wants to rebuild all CVS apps 
+and libs with latest stuff, he'll use devcheck+makepkg or srcpac.
+EXTRA, well... extra contains all the stuff which is not part of base, 
+desktop or cvs ;)
+Just checkout &quot;current&quot; module to get all this.
+dpb has already modified his &quot;mkdb&quot; script for the new ftp and cvs 
+layout. Another little change we made is to put binary package 
+repositories into the &quot;packages&quot; directory.
+We are going to rebuild pacman as soon as possible.
+
+
+ 
+ 
+ --
+ Email.it, the professional e-mail, gratis per te: <A HREF="http://www.email.it/f">http://www.email.it/f</A>
+ 
+ Sponsor:
+ Audio, Video, HI-FI...oltre 2.000 prodotti di alta qualit&#224; a prezzi da sogno solo su Visualdream.it 
+ Clicca qui: <A HREF="http://adv.email.it/cgi-bin/foclick.cgi?mid=2955&amp;d=11-12">http://adv.email.it/cgi-bin/foclick.cgi?mid=2955&amp;d=11-12</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000009.html">[Projectdev-devel] udev-046-2
+</A></li>
+	<LI>Next message: <A HREF="000011.html">[Projectdev-devel] Test CVS is now &quot;current&quot;
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#10">[ date ]</a>
+              <a href="thread.html#10">[ thread ]</a>
+              <a href="subject.html#10">[ subject ]</a>
+              <a href="author.html#10">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/projectdev-devel">More information about the Projectdev-devel
+mailing list</a><br>
+</body></html>

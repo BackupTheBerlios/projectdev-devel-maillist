@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Projectdev-devel] udev-046-2
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/projectdev-devel/2004-December/index.html" >
+   <LINK REL="made" HREF="mailto:projectdev-devel%40lists.berlios.de?Subject=Re%3A%20%5BProjectdev-devel%5D%20udev-046-2&In-Reply-To=%3C34860.83.100.157.117.1102266863.squirrel%4083.100.157.117%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000010.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Projectdev-devel] udev-046-2</H1>
+    <B>Luke Morfitt</B> 
+    <A HREF="mailto:projectdev-devel%40lists.berlios.de?Subject=Re%3A%20%5BProjectdev-devel%5D%20udev-046-2&In-Reply-To=%3C34860.83.100.157.117.1102266863.squirrel%4083.100.157.117%3E"
+       TITLE="[Projectdev-devel] udev-046-2">mogwa at mogwa.net
+       </A><BR>
+    <I>Sun Dec  5 18:14:23 CET 2004</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000010.html">[Projectdev-devel] Test CVS is now &quot;current&quot;
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#9">[ date ]</a>
+              <a href="thread.html#9">[ thread ]</a>
+              <a href="subject.html#9">[ subject ]</a>
+              <a href="author.html#9">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello every one.
+
+Myself and MrGreen have resently come across a problem with the udev-046-2
+pkg.
+
+If you install this PKG your system will not mount your partitions. we
+have yet to identify the exect issues with this PKG. Please do not install
+this PKG.
+
+If you have isntalled this PKG and your system is not working you will
+need to do the following.
+boot off the project dEv cd
+mount the cd via
+mount /dev/cdroms/cdrom /src
+mount your root partition
+mount /dev/discs/disc0/part1 /mnt
+copy the older version of udev accross.
+cp /src/projectdev/pkg/udev-036-1.pkg.tar.gz /mnt
+change root
+chroot /mnt
+downgrade the pkg
+pacman --upgrade udev-036-1.pkg.tar.gz
+exit the chroot
+umount /mnt
+reboot
+
+all been well you should be back up and running in about 10 mins.
+Thanks
+Mogwa_
+
+
+
+
+
+--
+This message has been scanned for viruses and dangerous content by the Viper Internet email scanner, and is believed to be clean.
+
+Email service provided by Viper Internet
+<A HREF="http://www.viper.uk.net">http://www.viper.uk.net</A>
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000010.html">[Projectdev-devel] Test CVS is now &quot;current&quot;
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#9">[ date ]</a>
+              <a href="thread.html#9">[ thread ]</a>
+              <a href="subject.html#9">[ subject ]</a>
+              <a href="author.html#9">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/projectdev-devel">More information about the Projectdev-devel
+mailing list</a><br>
+</body></html>
